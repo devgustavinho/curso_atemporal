@@ -82,9 +82,9 @@ Para aproveitar ao máximo este curso, é recomendado que você já tenha algum 
 ??? info "Caso você manje de inglês"
 	Caso você conheça bastante inglês e queira se aprofundar em mais tópicos, o pessoal de Curriculum Developer da própria Temporal Technologies oferecem cursos gratuitos para você ler e testar. Nosso intuito aqui é fazer com que você se sinta melhor acolhido com o diálogo mais intimista de um português quase bem falado, mas você pode ver mais sobre Temporal nos links abaixo.
 
-	[**Temporal 101**](https://learn.temporal.io/courses/temporal_101/){:target="_blank"}
-    [**Temporal 102**](https://learn.temporal.io/courses/temporal_102/){:target="_blank"}
-    [**Interacting with Workflows**](https://learn.temporal.io/courses/interacting_with_workflows/){:target="_blank"}
+	- [**Temporal 101**](https://learn.temporal.io/courses/temporal_101/){:target="_blank"}
+    - [**Temporal 102**](https://learn.temporal.io/courses/temporal_102/){:target="_blank"}
+    - [**Interacting with Workflows**](https://learn.temporal.io/courses/interacting_with_workflows/){:target="_blank"}
 
 ## Aulas
 
@@ -96,7 +96,7 @@ Após todas as aulas, se você sentir que ainda quer evoluir mais e testar seus 
 ### 🐏 Quem vai ministrar essas aulas?
 
 <div class="sbs" markdown>
-![Uma fotografia minha, Gustavinho, sentado em uma cadeira a noite, comendo um pratinho, piscando um olho para você enquanto dou um joinha para a câmera](assets/pratinho.jpeg){ align=left width="300" .shadow}
+![Uma fotografia minha, Gustavinho, olhando para a câmera](assets/eu.jpeg){ .shadow}
 <div markdown>
 
 Prazer! Eu me chamo Gustavo. Mas as pessoas me chamam de [Gustavinho](https://meuproximo.site/devgustavinho){:target="_blank"}.
