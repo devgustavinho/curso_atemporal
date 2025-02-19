@@ -1,10 +1,10 @@
 ---
-title: Curso aTemporal
+title: Sobre o curso
 description: Boas vindas ao nosso cursinho de Temporal.io! Espero que goste.
 ---
 
 <img src="https://cdn.sanity.io/images/bbnkhnhl/production/325eba542999ccf3b4b41cfeb543c7a8e37a35a9-1460x968.png?w=1200&q=75&fit=clip&auto=format">
-# Curso aTemporal
+# Sobre o curso
 
 
 ??? tip "Caso prefira ver a apresentação do curso em vídeo"
@@ -97,7 +97,6 @@ Após todas as aulas, se você sentir que ainda quer evoluir mais e testar seus 
 
 <div class="sbs" markdown>
 ![Uma fotografia minha, Gustavinho, olhando para a câmera](assets/eu.jpeg){ .shadow}
-<div markdown>
 
 Prazer! Eu me chamo Gustavo. Mas as pessoas me chamam de [Gustavinho](https://meuproximo.site/devgustavinho){:target="_blank"}.
 
@@ -110,11 +109,26 @@ Sou noivo da [Késsia](https://www.instagram.com/teacherkessialima/), uma profes
 
 🐈‍⬛
 </div>
-</div>
 
-## :face_with_monocle: Revisão e contribuições
+## 🧐 Revisão e contribuições
 
 Esse material ainda não foi revisado, mas sinta-se a vontade para criar um pull requests para contribuir!
+
+## 🫂 Apoiadores
+
+![Logo da Learn Temporal](https://learn.temporal.io/img/banners/learntemporal.png){ .shadow}
+
+É com uma enorme felicidade que eu posso anunciar que o pessoal da [Temporal Technologies](https://temporal.io){:target="_blank"}, criadores do Temporal.io, está dando todo o apoio a criação desse curso.
+
+[Angela Zhao](https://www.linkedin.com/in/zhoua1115/){:target="_blank"}, Lead of Curriculum Engineer, e todo o time de Curriculum da Temporal nos ajuda constantemente tirando dúvidas diretamente da fonte;
+
+E não só isso: disponibilizaram nos momentos iniciais desse curso todo o apoio necessário para que possamos usar ambientes preparados para fazer nossos workflows e efetuar nossos testes.
+
+
+Visite o trabalho deles verificando o material original em [Learn Temporal](https://learn.temporal.io/){:target="_blank"}.
+
+
+
 
 ## 📖 Licença
 
@@ -158,7 +172,7 @@ Neste curso, a intenção é fornecer uma compreensão inicial, mas bem aprofund
 
 Este conteúdo foi pensado para auxiliar na compreensão de como criar microserviços relientes e confiáveis, dando atenção a aspectos importantes como idempotência, observalidade e políticas de retentativas.
 
-Nos vemos na primeira aula. ❤
+Nos vemos na primeira aula.
 
 ## F.A.Q.
 
