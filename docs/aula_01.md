@@ -55,13 +55,137 @@ Nele há uma série de configurações que poderão ser abordados no futuro, mas
 ### Namespaces
 Um Namespace no Temporal é uma área separada onde todos os componentes operam de maneira isolada, permitindo que diferentes aplicativos ou serviços dentro do mesmo cluster do Temporal não interfiram entre si. Eles são separados por nomes diferentes. Nesse curso, não vamos nos aprofundar em namespaces, pois usaremos a auto-gerada.
 
-Para criar uma namespace específica no Temporal iniciado pelo docker compose desse curso, devemos usar o comando:
+### Temporal Server
+É o serviço a parte onde tudo se conecta. Ele é composto por um serviço que possui um frontend para termos observabilidade sob nossos Workflows, o serviço interno que nos conectamos para registrar nossos namespaces e workers, além de um elasticsearch e o seu próprio banco de dados (por padrão, um postgres).
 
-```sh
-docker exec -it temporal ./ttemporal operator namespace create --namespace custom-namespace
-```
+### Client
+Um Client no Temporal é qualquer serviço ou aplicação que interage com o Temporal Server para iniciar e monitorar Workflows e executar Activities. Ele é responsável por enviar comandos para o servidor e buscar respostas sobre a execução de workflows. Ele pode ser:
 
-*PS: apenas Workers no mesmo namespace podem se comunicar*
+- Uma API com um SDK do Temporal Client instalado;
+- O próprio CLI do temporal
+- A própria UI do Temporal Server 
 
 ---
 
+## Instalando o Temporal Server com docker compose
+
+Há várias formas de instalar o Temporal na sua máquina, mas aqui trabalharemos de forma prática. O pessoal da Temporal Technologies criou para nós um simples `docker compose`.
+
+```sh
+# Baixa o repositório `docker-compose` da `temporalio`.
+git clone https://github.com/temporalio/docker-compose.git
+# Entra na pasta
+cd docker-compose
+# Instala as dependências e inicia o Temporal
+docker compose up -d
+```
+
+Quando o processo finalizar, basta acessar a rota `http://localhost:8080/` e você terá acesso ao **Temporal Server**. Certifique-se de que as portas `8080` e `7233` estão liberadas para que o servidor possa iniciar corretamente. Você terá acesso a uma tela como essa:
+
+![Print da tela do Temporal Server UI](assets/temporal//empty_temporal_serverpng.png){ .shadow}
+
+Por enquanto, não exploraremos muito ela, mas ai estará a nossa maior visibilidade e observabilidade que o Temporal nos proporciona.
+O que precisamos saber:
+
+- Na porta `8080` encontra-se a UI do Temporal Server, onde podemos ter um maior controle sobre o que se passa no backend.
+- Na porta `7233` encontra-se o backend de conexão com o Temporal Server. É nele que nossas aplicações se conectarão.
+
+## Criando o nosso primeiro Worker
+
+Com tudo em ordem, vamos criar um worker simples utilizando o SDK do Typescript para Temporal. Realizaremos os seguintes comandos:
+```sh
+mkdir meu-primeiro-worker && cd meu-primeiro-worker
+npm init -y
+npm install typescript tsx @temporalio/worker @temporalio/workflow
+mkdir workflows
+touch index.ts workflows/index.ts
+```
+
+O que eles fazem?
+Criam uma estrutura de pastas como essa:
+
+```
+.
+├── workflows
+│  └── index.ts
+├── node_modules/
+├── package.json
+├── package-lock.json
+└── index.ts
+```
+
+No nosso `./workflows/index.ts`, adicionaremos nosso primeiríssimo Workflow! Ele será algo inicialmente bem básico mas que servirá ao nosso propósito:
+
+```typescript
+export async function helloWorldWorkflow() {
+    return 'Hello World!'
+}
+```
+
+
+E agora no nosso `./index.ts` da nossa pasta raiz, adicionaremos o seguinte código:
+```typescript
+import { NativeConnection, Worker } from '@temporalio/worker';
+
+async function run() {
+  // Inicia uma conexão nativa com o Temporal Server
+  const connection = await NativeConnection.connect();
+  try {
+    // Cria um Worker com task-queue `hello-world` que exportará nosso helloWorldWorkflow para a rede do Temporal Server
+    const worker = await Worker.create({
+      connection,
+      taskQueue: 'hello-world',
+      workflowsPath: require.resolve('./workflows'),
+    });
+
+    // Se conecta com o Temporal Server e executa o worker
+    await worker.run();
+  } finally {
+    await connection.close();
+  }
+}
+
+run().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+```
+Nosso Worker já está corretamente conectado e aguardando o Temporal Server atribuir alguma tarefa a ele!
+
+## Executando nosso primeiro Workflow
+
+Com todo o ambiente preparado, voltaremos para nosso Temporal Server na porta `http://localhost:8080/`, e buscaremos o botão `Start Workflow`:
+<br />
+![Botão azul com os dizeres 'Start Workflow'](assets/temporal/start_workflow_button.png)
+<br />
+
+Ao clicar, será aberto um formulário para o Temporal Server saber qual é o workflow que deve ser iniciado, em qual task-queue, que ID único atribuiremos àquele workflow e quais dados iremos passar como atributos de inserção.
+![Formulário que dará início ao cadastro de um Workflow](assets/temporal/start_workflow_form.png)
+
+
+Para nosso primeiro workflow:
+
+- Workflow ID:     `meu-primeiro-workflow`
+- Task Queue:      `hello-world`
+- Workflow Type:   `helloWorldWorkflow`
+- Input/data:      ## Deixe vazio
+
+Em seguida, clique em `Start Workflow` e retorne à `http://localhost:8080/`. Você verá que nosso primeiro workflow foi corretamente executado! Mas como isso aconteceu?
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Temporal Server
+    participant Worker
+
+    Client->>+Temporal Server: Requisita o workflow a ser iniciado
+    Temporal Server-->>-Client: Workflow é iniciado (WorkflowID, RunID)
+    Temporal Server-->>+Worker: Requisita o início do Workflow
+
+    Worker->>Worker: Executa o workflow até um retorno ou suspensão
+    Worker-->>+Temporal Server: Reporta progresso do Workflow
+    Temporal Server-->>+Client: Reporta resultado do Workflow
+```
+
+## Conclusão
+Pronto! Agora temos um ambiente de desenvolvimento totalmente configurado para começar a trabalhar com Temporal.io e com nosso Worker com SDK Typescript e já fizemos nossa primeira execução de um workflow. Na próxima aula nos aprofundaremos na estruturação do nosso Worker. Até lá!

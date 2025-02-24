@@ -56,16 +56,6 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - md_in_html
 
-fonts:
-  icon: material/format-font
-  preferences:
-    - text: Default
-    - text: Roboto
-      code: Roboto Mono
-    - text: OpenDyslexic
-      code: OpenDyslexicMono
-      src: https://fonts.cdnfonts.com/css/opendyslexic
-
 extra_javascript:
   - https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js
 
